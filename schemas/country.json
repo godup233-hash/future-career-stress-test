@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/godup233-hash/future-career-stress-test/schemas/country.json",
+  "title": "CountryDataAdapter",
+  "description": "Interface contract for a country data adapter. Adapters are resolved per analysis, never hardcoded into the model. A conforming adapter tells the agent WHERE to get each data class for that country.",
+  "type": "object",
+  "required": ["country", "classification", "sources"],
+  "properties": {
+    "country": { "type": "string", "description": "ISO 3166-1 alpha-2" },
+    "country_zh": { "type": "string" },
+    "classification": {
+      "type": "object",
+      "required": ["system", "isco08_crosswalk"],
+      "properties": {
+        "system": { "type": "string", "description": "e.g. 'O*NET-SOC', 'ANZSCO', 'NOC 2021', '职业分类大典', 'ESCO'" },
+        "isco08_crosswalk": { "type": "boolean", "description": "Whether an official crosswalk to ISCO-08 exists" },
+        "task_level_data": { "type": "boolean", "description": "Whether task-level descriptions are publicly available (false → mark task analysis as Model inference)" }
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "object",
+      "description": "Official endpoints per data class. Values reference whitelist entries in docs/data-sources.md.",
+      "required": ["employment_wages", "projections", "shortage_lists", "regulation"],
+      "properties": {
+        "employment_wages": { "type": "array", "items": { "type": "string", "format": "uri" } },
+        "projections": { "type": "array", "items": { "type": "string", "format": "uri" } },
+        "shortage_lists": { "type": "array", "items": { "type": "string", "format": "uri" } },
+        "regulation": { "type": "array", "items": { "type": "string", "format": "uri" }, "description": "Licensing/registration registers" },
+        "immigration_lists": { "type": "array", "items": { "type": "string", "format": "uri" }, "description": "Skilled occupation / visa eligibility lists, if applicable" },
+        "demographics": { "type": "array", "items": { "type": "string", "format": "uri" } }
+      },
+      "additionalProperties": false
+    },
+    "known_limitations": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

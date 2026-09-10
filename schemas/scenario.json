@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/godup233-hash/future-career-stress-test/schemas/scenario.json",
+  "title": "Scenario",
+  "description": "One AI-development scenario and its occupation-level consequences. Scenarios are conditional what-ifs, never forecasts.",
+  "type": "object",
+  "required": ["id", "name", "name_zh", "anchor", "task_shares", "disclaimer"],
+  "properties": {
+    "id": { "type": "string", "enum": ["modest", "substantial", "extreme"] },
+    "name": { "type": "string", "description": "Modest / Substantial / Extreme" },
+    "name_zh": { "type": "string", "description": "渐进 / 大规模普及 / 极高速" },
+    "anchor": {
+      "type": "object",
+      "description": "Macro anchors from Anthropic Economic Scenarios (US). Verify live at analysis time.",
+      "properties": {
+        "source": { "type": "string", "const": "Anthropic Economic Scenarios (Institute WP 2026-02)" },
+        "cognitive_employment_change_pct": { "type": "number" },
+        "unemployment_2030_pct": { "type": "number" },
+        "cognitive_wage_change_vs_no_ai_pct": { "type": "number" },
+        "other_wage_change_vs_no_ai_pct": { "type": "number" },
+        "gdp_change_vs_no_ai_pct": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "task_shares": {
+      "type": "object",
+      "description": "Occupation-level result: share of task bundle under each AI effect",
+      "required": ["automated", "augmented", "unchanged", "newly_created"],
+      "properties": {
+        "automated": { "type": "number", "minimum": 0, "maximum": 1 },
+        "augmented": { "type": "number", "minimum": 0, "maximum": 1 },
+        "unchanged": { "type": "number", "minimum": 0, "maximum": 1 },
+        "newly_created": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "assumptions": { "type": "array", "items": { "type": "string" }, "description": "Assumptions made transferring macro anchors to this occupation/country" },
+    "disclaimer": { "type": "string", "const": "Scenario, not forecast. 情景模拟，不是确定性预测。" },
+    "evidence": { "type": "array", "items": { "$ref": "evidence.json" } }
+  },
+  "additionalProperties": false
+}

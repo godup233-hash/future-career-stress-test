@@ -1,0 +1,11 @@
+# Local datasets downloaded for development (see data/README.md)
+data/**/*.csv
+data/**/*.xlsx
+data/**/*.json
+!data/README.md
+
+# OS / editor noise
+.DS_Store
+*.swp
+.idea/
+.vscode/

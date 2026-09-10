@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/godup233-hash/future-career-stress-test/schemas/evidence.json",
+  "title": "Evidence",
+  "description": "A single evidence record backing a claim. Every material claim in an output must trace to at least one Evidence object.",
+  "type": "object",
+  "required": ["source", "url", "published_at", "data_period", "retrieved_at", "country", "level", "freshness"],
+  "properties": {
+    "source": { "type": "string", "description": "Publishing body, e.g. 'U.S. Bureau of Labor Statistics'" },
+    "title": { "type": "string", "description": "Report/dataset title, e.g. 'Occupational Outlook Handbook: Electricians'" },
+    "url": { "type": "string", "format": "uri" },
+    "published_at": { "type": "string", "description": "ISO date or year of publication" },
+    "data_period": { "type": "string", "description": "Period the data describes, e.g. 'May 2024', '2024-2034'" },
+    "retrieved_at": { "type": "string", "description": "ISO date the agent accessed it" },
+    "country": { "type": "string", "description": "ISO 3166-1 alpha-2 or 'GLOBAL'" },
+    "methodology_note": { "type": "string", "description": "One line: survey/model/administrative data, sample basis" },
+    "level": { "type": "string", "enum": ["S", "A", "B", "C", "D"], "description": "S=official/primary, A=major research, B=industry, C=secondary media, D=unverified (never usable)" },
+    "freshness": { "type": "string", "enum": ["Fresh", "Aging", "Old", "Historical"], "description": "Fresh 0-1y, Aging 1-3y, Old 3-5y, Historical >5y" }
+  },
+  "additionalProperties": false
+}

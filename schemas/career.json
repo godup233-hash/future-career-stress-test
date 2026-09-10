@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/godup233-hash/future-career-stress-test/schemas/career.json",
+  "title": "CareerStressTestResult",
+  "description": "The full structured result of a career stress test. This is the machine-readable counterpart of the Standard Output Format in SKILL.md.",
+  "type": "object",
+  "required": ["occupation", "country", "goal_profile", "scores", "scenarios", "transitions", "evidence", "uncertainty"],
+  "properties": {
+    "occupation": { "$ref": "occupation.json" },
+    "country": { "type": "string", "description": "ISO 3166-1 alpha-2; 'MULTI' for country comparisons" },
+    "goal_profile": { "type": "string", "enum": ["balanced", "high-income", "immigration", "quick-employment", "ai-era-stability"] },
+    "scores": {
+      "type": "object",
+      "description": "Career Future Score per scenario, 0-100 integers",
+      "required": ["modest", "substantial", "extreme"],
+      "properties": {
+        "modest": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "substantial": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "extreme": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "weights_used": { "type": "object", "description": "Final normalized weights per dimension after goal re-weighting and insufficient-evidence exclusion" },
+        "dimensions_excluded": { "type": "array", "items": { "type": "string" }, "description": "Dimensions excluded due to insufficient evidence (renormalized)" }
+      },
+      "additionalProperties": false
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "score_or_status", "basis"],
+        "properties": {
+          "name": { "type": "string", "enum": ["Future Demand", "AI Resilience", "Wage Potential", "Labor Scarcity", "Demographic Tailwind", "Entry Feasibility", "Geographic Mobility", "AI Complementarity"] },
+          "score_or_status": { "type": ["integer", "string"], "description": "0-100, or the literal 'insufficient evidence'" },
+          "basis": { "type": "string", "enum": ["Observed", "Historical trend", "Projection", "Scenario", "Model inference", "Opinion"] },
+          "confidence": { "type": "string", "enum": ["high", "medium", "low"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "scenarios": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "scenario.json" } },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_occupation", "skill_overlap_pct", "training_time_months", "training_cost", "salary_change", "risk_reduction", "basis"],
+        "properties": {
+          "target_occupation": { "type": "string" },
+          "skill_overlap_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+          "training_time_months": { "type": ["number", "string"], "description": "Number or 'unknown'" },
+          "training_cost": { "type": "object", "properties": { "amount": { "type": ["number", "null"] }, "currency": { "type": "string" } } },
+          "salary_change": { "type": "object", "properties": { "amount": { "type": ["number", "null"] }, "currency": { "type": "string" }, "data_year": { "type": "string" } } },
+          "risk_reduction": { "type": "number", "description": "Origin CFS minus target CFS, same scenario" },
+          "blocked": { "type": "boolean", "description": "True if a hard gate applies (licensing, health, budget)" },
+          "blocked_reason": { "type": "string" },
+          "basis": { "type": "string", "enum": ["Observed", "Historical trend", "Projection", "Scenario", "Model inference", "Opinion"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidence": { "type": "array", "minItems": 1, "items": { "$ref": "evidence.json" } },
+    "uncertainty": {
+      "type": "object",
+      "required": ["weak_evidence_areas", "sensitivity", "falsifiers"],
+      "properties": {
+        "weak_evidence_areas": { "type": "array", "items": { "type": "string" } },
+        "sensitivity": { "type": "string", "description": "Which assumption moves the conclusion most" },
+        "falsifiers": { "type": "array", "items": { "type": "string" }, "description": "Observable developments that would change the recommendation" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

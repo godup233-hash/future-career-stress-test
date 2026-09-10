@@ -2,6 +2,7 @@
 
 [English README → README_EN.md](README_EN.md)
 
+![核心工作流程](assets/workflow-zh.png)
 
 一个**证据驱动**的开源 AI Skill：基于权威劳动力市场数据、任务级 AI 自动化研究、
 AI 能力趋势、人口结构与宏观情景，对个人职业做**未来压力测试**，并给出

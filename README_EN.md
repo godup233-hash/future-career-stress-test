@@ -2,6 +2,8 @@
 
 [中文文档 → README.md](README.md)
 
+![Core Workflow](assets/workflow-en.png)
+
 An **evidence-driven** open-source AI Skill that stress-tests a career against
 authoritative labor-market data, task-level AI-automation research, AI
 capability trends, demographics, and macro scenarios — and produces
